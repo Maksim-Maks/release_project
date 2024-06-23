@@ -10,9 +10,9 @@ clock = pygame.time.Clock()
 background = pygame.transform.scale(pygame.image.load("background.jpg"), SIZE)
 
 pygame.font.init()
-font = pygame.font.Font(None , 70)
-text_lose = font.render("oh oh!", True, (255,0,0))
-text_win = font.render("YOU WIN!",True, (0,0,255))
+font = pygame.font.Font(None , 30)
+text_lose = font.render("oh oh! ( Press F to restart )", True, (255,0,0))
+text_win = font.render("that was not hard! ( Press F to restart )",True, (0,0,255))
 
 class GameSprite(pygame.sprite.Sprite):
     def __init__(self,filename, size, coords):
@@ -98,7 +98,7 @@ class Player(GameSprite):
         
                 
 
-target = GameSprite("logo.png",(120,120),(WIDTH/2,HEIGHT/2))    
+target = GameSprite("target.png",(150,550),(WIDTH/2,HEIGHT/2))    
 
     
 
@@ -115,21 +115,29 @@ walls_2 = pygame.sprite.Group(Wall("wall.png",(300,150),(100,100)),
 Wall("wall.png",(300,150),(350,200)),
 Wall("wall.png",(300,150),(600,350)))
 
-enemy_flowers1 = pygame.sprite.Group( Enemy("angryflower.png",(85,85),(300,530)),
-Enemy("angryflower.png",(85,85),(700,355)))
+enemy_flowers1 = pygame.sprite.Group( Enemy("angryflower.png",(85,85),(350,530)),
+Enemy("angryflower.png",(85,85),(800,330)),Enemy("angryflower.png",(85,85),(400,130)))
 
-enemy_flowers2 = pygame.sprite.Group( Enemy("angryflower.png",(85,85),(200,330)),
-Enemy("angryflower.png",(85,85),(550,355)))
+enemy_flowers2 = pygame.sprite.Group( Enemy("angryflower.png",(85,85),(200,530)),
+Enemy("angryflower.png",(85,85),(600,230)),Enemy("angryflower.png",(85,85),(600,530)))
 
 
 
 current_lvl = 1
+restart = False
 game_over = False
 finish = False
 while not game_over:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             game_over = True
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_f:
+                        finish = False
+                        restart = True
+                        current_lvl = 1
+                        main_character = Player("mario.png",(90,90),(100,530))
+            
     if current_lvl == 1:
         walls = walls_1
         enemy_flowers = enemy_flowers1
@@ -151,11 +159,11 @@ while not game_over:
             finish = True
             window.blit(text_lose,(WIDTH/2,HEIGHT/2))
 
-        if current_lvl == 3:
-            target.reset()
-            if pygame.sprite.collide_rect(main_character,target):
-                window.blit(text_win,(WIDTH/2,HEIGHT/2))
-                finish = True
+    if current_lvl == 3:
+        target.reset()
+        if pygame.sprite.collide_rect(main_character,target):
+            window.blit(text_win,(WIDTH/2,HEIGHT/2))
+            finish = True
 
             
         
@@ -163,5 +171,5 @@ while not game_over:
         
 
 
-        pygame.display.update()
-        clock.tick(FPS)
+    pygame.display.update()
+    clock.tick(FPS)

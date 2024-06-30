@@ -137,6 +137,14 @@ while not game_over:
                         restart = True
                         current_lvl = 1
                         main_character = Player("mario.png",(90,90),(100,530))
+                        walls_1 = pygame.sprite.Group(  Wall("wall.png",(300,150),(400,250)),
+                            Wall("wall.png",(300,150),(400,250)),
+                            Wall("wall.png",(300,150),(700,450)),
+                                                            )
+                        walls_2 = pygame.sprite.Group(Wall("wall.png",(300,150),(100,100)),
+                            Wall("wall.png",(300,150),(350,200)),
+                            Wall("wall.png",(300,150),(600,350)))
+
             
     if current_lvl == 1:
         walls = walls_1
